@@ -1,0 +1,85 @@
+# App Chama Carreto
+
+Aplicativo de intermediação de **carretos urbanos** focado em regiões comerciais de alto fluxo, como **Brás** e **25 de Março** (São Paulo/SP).
+
+A ideia é funcionar como um “Uber do carreto”:  
+o **cliente** precisa transportar mercadorias (fardos, bebidas, roupas, etc.), abre o app e solicita um carreto; o **carreteiro** mais próximo recebe a solicitação, aceita o serviço e realiza o transporte.
+
+---
+
+## Visão do Produto
+
+- **Público-alvo principal**
+  - Lojistas e compradores no Brás / 25 de Março
+  - Carreteiros autônomos que atuam nessas regiões
+
+- **Perfis de usuário**
+  - **Cliente**: cadastra origem, destino, tipo de carga, acompanha o serviço.
+  - **Carreteiro**: se mantém online/offline, recebe chamados próximos, aceita ou recusa.
+  - **Admin**: gerencia usuários, configura preços, acompanha corridas e pagamentos.
+
+---
+
+## Modelo de Negócio (como o app gera dinheiro)
+
+A receita não vem de download de aplicativo e sim das **transações** realizadas dentro da plataforma:
+
+1. **Comissão por carreto**
+   - Exemplo: 20% do valor de cada carreto fica com a plataforma; 80% com o carreteiro.
+
+2. **Taxa de serviço**
+   - Taxa fixa cobrada do cliente por chamada (ex.: R$ 3,00 a R$ 5,00).
+
+3. **Planos de assinatura para carreteiros**
+   - Plano Free: acesso básico às chamadas.
+   - Plano Pro: prioridade nas chamadas, relatórios extras, mais visibilidade.
+
+4. **Extras futuros**
+   - Taxa de cancelamento
+   - Adicionais por carga pesada, andar sem elevador, etc.
+   - Possível venda de destaque / publicidade para lojistas parceiros.
+
+---
+
+## MVP (Protótipo atual neste repositório)
+
+Este repositório contém um **protótipo web responsivo** (HTML, CSS e JavaScript) que simula o fluxo básico do aplicativo:
+
+- Simulação de:
+  - Tela “Sou Cliente” → formulário para solicitar carreto.
+  - Tela “Sou Carreteiro” → lista de chamados pendentes para aceitar.
+  - Feedback visual de “carreto encontrado” e “carreto aceito”.
+
+> ⚠️ Este MVP é uma simulação front-end.  
+> Não há backend real, banco de dados, geolocalização real nem integração com meios de pagamento.  
+> O objetivo é **apresentar o conceito**, o fluxo e a interface inicial aos sócios/investidores.
+
+---
+
+## Próximos Passos (versão profissional)
+
+### Stack recomendada
+
+- **Apps móveis (Cliente + Carreteiro)**
+  - React Native (com Expo) ou Flutter.
+
+- **Backend (API)**
+  - Python (FastAPI ou Django REST Framework).
+  - Banco de dados: PostgreSQL.
+
+- **Funcionalidades core**
+  - Autenticação (JWT).
+  - Cadastro e gestão de clientes e carreteiros.
+  - Geolocalização (Google Maps / Mapbox).
+  - Pareamento em tempo real (carreteiro mais próximo).
+  - Motor de precificação (taxa base, km, tempo, adicionais).
+  - Integração com pagamento (Pix, cartão).
+  - Painel administrativo.
+
+---
+
+## Como visualizar o protótipo
+
+1. Faça o clone do repositório:
+   ```bash
+   git clone https://github.com/SEU-USUARIO/app-chama-carreto.git
