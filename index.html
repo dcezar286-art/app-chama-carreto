@@ -1,0 +1,659 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chama Carreto – Protótipo</title>
+
+  <meta name="description" content="Protótipo do aplicativo Chama Carreto: conectando lojistas e carreteiros no Brás e 25 de Março.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-elevated: #0b1120;
+      --primary: #f97316; /* laranja destaque */
+      --primary-soft: rgba(249,115,22,0.1);
+      --primary-strong: #ea580c;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border: #1f2937;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #020617 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(15,23,42,0.96);
+      border-radius: 30px;
+      padding: 18px 18px 24px;
+      border: 1px solid rgba(148,163,184,0.25);
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(15,23,42,0.8);
+      backdrop-filter: blur(18px);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fed7aa, #f97316 45%, #9a3412 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b1120;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 0 2px rgba(15,23,42,0.9);
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 16px;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.13);
+      border: 1px solid rgba(45,212,191,0.25);
+      color: #a5f3fc;
+    }
+
+    .hero {
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .hero-highlight {
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(31,41,55,0.9);
+      color: #9ca3af;
+    }
+
+    .role-toggle {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 6px;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .role-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 0;
+      font-size: 12px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-soft);
+      font-weight: 500;
+      transition: all 0.18s ease-out;
+    }
+
+    .role-btn.active {
+      background: var(--primary);
+      color: #0b1120;
+      box-shadow: 0 9px 18px rgba(249,115,22,0.45);
+    }
+
+    .role-btn span {
+      font-size: 10px;
+      opacity: 0.8;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 14px 13px 14px;
+      margin-bottom: 12px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: #fed7aa;
+      border: 1px solid rgba(248, 250, 252, 0.04);
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    input, select, textarea {
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      padding: 7px 9px;
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      transition: border 0.16s ease-out, box-shadow 0.16s ease-out;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.5);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 52px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 2.2fr 1.2fr;
+      gap: 8px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      border: none;
+      border-radius: 999px;
+      padding: 9px 0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(to right, var(--primary), var(--primary-strong));
+      color: #0b1120;
+      box-shadow: 0 10px 22px rgba(249,115,22,0.45);
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 14px rgba(249,115,22,0.45);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.55);
+      background: transparent;
+      color: var(--text-soft);
+      font-size: 11px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+
+    .note {
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 7px 9px;
+      border-radius: 11px;
+      font-size: 11px;
+      line-height: 1.4;
+      border: 1px dashed rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .status-title {
+      font-weight: 600;
+      color: #fbbf24;
+      margin-bottom: 2px;
+    }
+
+    .status-ok {
+      border-color: rgba(34,197,94,0.5);
+      background: rgba(6,95,70,0.4);
+      color: #bbf7d0;
+    }
+
+    .status-ok .status-title {
+      color: #bbf7d0;
+    }
+
+    .status-muted {
+      opacity: 0.85;
+    }
+
+    .driver-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .driver-item {
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      padding: 7px 9px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #020617;
+    }
+
+    .driver-meta {
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: none;
+      padding: 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+      background: rgba(34,197,94,0.18);
+      color: #bbf7d0;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .app {
+        border-radius: 26px;
+        padding: 15px 14px 20px;
+      }
+
+      .hero-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">C</div>
+        <div>
+          <div class="logo-text-main">Chama Carreto</div>
+          <div class="logo-text-sub">Brás • 25 de Março • SP</div>
+        </div>
+      </div>
+      <div class="pill">Protótipo • MVP</div>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title">
+        Carreto na mão,
+        <span class="hero-highlight">sem ficar caçando na rua.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Lojistas acionam o carreto pelo app, carreteiros recebem corridas próximas
+        e todo mundo ganha tempo (e dinheiro).
+      </p>
+
+      <div class="chip-row">
+        <div class="chip">Foco: Brás &amp; 25 de Março</div>
+        <div class="chip">Cliente &amp; Carreteiro</div>
+        <div class="chip">Simulação de fluxo</div>
+      </div>
+    </section>
+
+    <!-- Alternância de perfil -->
+    <section class="role-toggle">
+      <button class="role-btn active" data-role="cliente">
+        Cliente
+        <span>Preciso de um carreto</span>
+      </button>
+      <button class="role-btn" data-role="carreteiro">
+        Carreteiro
+        <span>Quero receber chamadas</span>
+      </button>
+    </section>
+
+    <!-- Card Cliente -->
+    <section class="card" id="card-cliente">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Chamar carreto agora</h2>
+          <p class="card-subtitle">Informe seu ponto de retirada e destino.</p>
+        </div>
+        <span class="badge">Fluxo Cliente</span>
+      </div>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label for="origem">Local de retirada</label>
+          <input id="origem" type="text" placeholder="Ex: Rua Oriente, 500 – Brás" />
+        </div>
+
+        <div class="field-group">
+          <label for="destino">Destino</label>
+          <input id="destino" type="text" placeholder="Ex: Jaçanã, São Paulo" />
+        </div>
+
+        <div class="row-2">
+          <div class="field-group">
+            <label for="tipoCarga">Tipo de carga</label>
+            <select id="tipoCarga">
+              <option value="" selected disabled>Selecione</option>
+              <option value="bebidas">Bebidas</option>
+              <option value="roupas">Roupas / Confecção</option>
+              <option value="alimentos">Alimentos</option>
+              <option value="fragil">Frágil / Eletrônicos</option>
+              <option value="outros">Outros</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="pesoEstimado">Peso estimado</label>
+            <input id="pesoEstimado" type="text" placeholder="Ex: 300 kg" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="obsCliente">Observações (opcional)</label>
+          <textarea id="obsCliente" placeholder="Ex: Carregar no subsolo, precisa de carrinho, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-primary" id="btnBuscarCarreto">
+          Buscar carreto agora
+        </button>
+        <button class="btn-ghost" id="btnSimularPreco">
+          Simular preço
+        </button>
+      </div>
+
+      <p class="note">
+        * Simulação de protótipo – sem cobrança real, para apresentação do fluxo aos sócios.
+      </p>
+
+      <div class="status status-muted" id="statusCliente" style="display:none;"></div>
+    </section>
+
+    <!-- Card Carreteiro -->
+    <section class="card" id="card-carreteiro" style="display:none;">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Chamados próximos</h2>
+          <p class="card-subtitle">Veja pedidos de carreto na sua região.</p>
+        </div>
+        <span class="badge">Fluxo Carreteiro</span>
+      </div>
+
+      <div class="status status-muted" id="statusCarreteiro">
+        <div class="status-title">Modo demonstração</div>
+        <div>Quando o cliente simula um carreto, ele aparece aqui como “chamado pendente”.</div>
+      </div>
+
+      <div class="driver-list" id="listaChamados">
+        <!-- Itens de chamado serão inseridos via JavaScript -->
+      </div>
+    </section>
+
+    <footer>
+      Protótipo conceitual desenvolvido por <span>Daniel</span> para validação do
+      projeto <span>Chama Carreto</span>.
+    </footer>
+  </main>
+
+  <script>
+    // --- Alternância de perfil (cliente/carreteiro) ---
+    const roleButtons = document.querySelectorAll('.role-btn');
+    const cardCliente = document.getElementById('card-cliente');
+    const cardCarreteiro = document.getElementById('card-carreteiro');
+
+    roleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        roleButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const role = btn.dataset.role;
+        if (role === 'cliente') {
+          cardCliente.style.display = '';
+          cardCarreteiro.style.display = 'none';
+        } else {
+          cardCliente.style.display = 'none';
+          cardCarreteiro.style.display = '';
+        }
+      });
+    });
+
+    // --- Simulação de fluxo de cliente ---
+    const btnBuscarCarreto = document.getElementById('btnBuscarCarreto');
+    const btnSimularPreco = document.getElementById('btnSimularPreco');
+    const statusCliente = document.getElementById('statusCliente');
+    const statusCarreteiro = document.getElementById('statusCarreteiro');
+    const listaChamados = document.getElementById('listaChamados');
+
+    // Armazena temporariamente o "chamado" simulado
+    let chamadoSimulado = null;
+
+    function mostrarStatusCliente(texto, ok = false) {
+      statusCliente.style.display = 'block';
+      statusCliente.classList.toggle('status-ok', ok);
+      statusCliente.classList.toggle('status-muted', !ok);
+      statusCliente.innerHTML = `
+        <div class="status-title">${ok ? 'Carreto encontrado!' : 'Simulação de pedido'}</div>
+        <div>${texto}</div>
+      `;
+    }
+
+    function atualizarChamadosCarreteiro() {
+      listaChamados.innerHTML = '';
+
+      if (!chamadoSimulado) return;
+
+      statusCarreteiro.classList.remove('status-muted');
+      statusCarreteiro.classList.add('status-ok');
+      statusCarreteiro.innerHTML = `
+        <div class="status-title">Chamado pendente</div>
+        <div>Você tem um novo pedido de carreto na região do Brás/25 de Março.</div>
+      `;
+
+      const item = document.createElement('div');
+      item.className = 'driver-item';
+      item.innerHTML = `
+        <div>
+          <div><strong>${chamadoSimulado.origem}</strong> ➜ ${chamadoSimulado.destino}</div>
+          <div class="driver-meta">
+            Carga: ${chamadoSimulado.tipo || 'Não informada'} • Estimativa: R$ ${chamadoSimulado.preco}
+          </div>
+        </div>
+        <button class="btn-small">Aceitar carreto</button>
+      `;
+
+      const btnAceitar = item.querySelector('.btn-small');
+      btnAceitar.addEventListener('click', () => {
+        statusCarreteiro.innerHTML = `
+          <div class="status-title">Carreto aceito ✅</div>
+          <div>
+            O carreteiro aceitou o chamado. No app real, a rota e o contato seriam exibidos agora.
+          </div>
+        `;
+        listaChamados.innerHTML = '';
+        chamadoSimulado = null;
+      });
+
+      listaChamados.appendChild(item);
+    }
+
+    function calcularPrecoSimulado(tipoCarga) {
+      // Regra simples apenas para apresentação
+      const base = 35; // taxa base
+      const extraTipo = {
+        bebidas: 25,
+        roupas: 15,
+        alimentos: 20,
+        fragil: 40,
+        outros: 10
+      };
+      const rand = Math.floor(Math.random() * 20); // aleatório para variar um pouco
+      return base + (extraTipo[tipoCarga] || 10) + rand;
+    }
+
+    btnBuscarCarreto.addEventListener('click', () => {
+      const origem = document.getElementById('origem').value.trim();
+      const destino = document.getElementById('destino').value.trim();
+      const tipo = document.getElementById('tipoCarga').value;
+      const peso = document.getElementById('pesoEstimado').value.trim();
+
+      if (!origem || !destino || !tipo) {
+        mostrarStatusCliente('Preencha origem, destino e tipo de carga para simular o chamado.');
+        return;
+      }
+
+      const preco = calcularPrecoSimulado(tipo);
+
+      chamadoSimulado = {
+        origem,
+        destino,
+        tipo,
+        peso,
+        preco
+      };
+
+      mostrarStatusCliente(
+        `Seu pedido foi enviado para os carreteiros próximos. 
+        Estimativa de valor: <strong>R$ ${preco}</strong>. 
+        No app real, você veria o tempo de chegada e o nome do carreteiro.`,
+        true
+      );
+
+      // Prepara aba de carreteiro
+      atualizarChamadosCarreteiro();
+    });
+
+    btnSimularPreco.addEventListener('click', () => {
+      const tipo = document.getElementById('tipoCarga').value;
+      if (!tipo) {
+        mostrarStatusCliente('Selecione o tipo de carga para simular um valor aproximado.');
+        return;
+      }
+      const preco = calcularPrecoSimulado(tipo);
+      mostrarStatusCliente(
+        `Para esse tipo de carga, a estimativa de preço inicial ficaria em torno de <strong>R$ ${preco}</strong> 
+        (valor meramente ilustrativo para apresentação).`
+      );
+    });
+  </script>
+</body>
+</html>
