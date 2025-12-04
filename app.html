@@ -277,6 +277,24 @@
       margin-top: 6px;
     }
 
+    .btn-ghost-small {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.6);
+      background: transparent;
+      color: var(--text-soft);
+      align-self: flex-start;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .help-text {
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
     .status-box {
       border-radius: 12px;
       border: 1px dashed rgba(148,163,184,0.5);
@@ -466,6 +484,12 @@
         <div class="field-group">
           <label for="origem">Local de retirada</label>
           <input id="origem" type="text" placeholder="Ex: Rua Oriente, 500 – Brás" />
+          <button type="button" class="btn-ghost-small" id="btnGeoCliente">
+            Usar minha localização (demo)
+          </button>
+          <div class="help-text">
+            O navegador pode pedir permissão para acessar sua localização. No app real, isso alimenta o cálculo de rota.
+          </div>
         </div>
 
         <div class="field-group">
@@ -595,6 +619,7 @@
 
     const btnChamar = document.getElementById('btnChamar');
     const btnSimularPrecoCliente = document.getElementById('btnSimularPrecoCliente');
+    const btnGeoCliente = document.getElementById('btnGeoCliente');
 
     function resetTimeline() {
       [dotPedido, dotEncontrado, dotAceito].forEach(d => d.classList.remove('active'));
@@ -646,7 +671,6 @@
         return;
       }
 
-      // Quando encontrado / pendente para aceite
       if (statusChamado === "encontrado") {
         statusCarreteiroEl.classList.add('status-ok');
         statusCarreteiroEl.innerHTML = `
@@ -700,6 +724,9 @@
         mostrarStatusCliente('Preencha origem, destino e tipo de carga para simular o chamado.');
         timelineClienteEl.style.display = 'none';
         resetTimeline();
+        statusChamado = "nenhum";
+        chamadoAtual = null;
+        atualizarTelaCarreteiro();
         return;
       }
 
@@ -728,7 +755,6 @@
 
       atualizarTelaCarreteiro();
 
-      // Simula tempo de busca
       setTimeout(() => {
         if (!chamadoAtual) return;
 
@@ -751,6 +777,9 @@
         mostrarStatusCliente('Selecione o tipo de carga para ver um valor estimado.');
         timelineClienteEl.style.display = 'none';
         resetTimeline();
+        statusChamado = "nenhum";
+        chamadoAtual = null;
+        atualizarTelaCarreteiro();
         return;
       }
       const preco = calcularPreco(tipo);
@@ -765,7 +794,35 @@
       chamadoAtual = null;
       atualizarTelaCarreteiro();
     });
+
+    // --- Geolocalização demo ---
+    btnGeoCliente.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        mostrarStatusCliente('Seu navegador não suporta geolocalização.', false);
+        return;
+      }
+
+      mostrarStatusCliente('Obtendo sua localização aproximada...', false, true);
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          const origemInput = document.getElementById('origem');
+          origemInput.value = `Minha localização atual (${latitude.toFixed(5)}, ${longitude.toFixed(5)})`;
+
+          mostrarStatusCliente(
+            'Localização capturada com sucesso. No app real, essas coordenadas seriam usadas para calcular rota e distância.',
+            true
+          );
+        },
+        (err) => {
+          mostrarStatusCliente(
+            'Não foi possível obter sua localização. Verifique se o navegador tem permissão para acessar o GPS.',
+            false
+          );
+        }
+      );
+    });
   </script>
 </body>
 </html>
-
